@@ -5,11 +5,23 @@ const multer = require('multer')
 const app = express()
 const PORT = 8002
 
+const storage = multer.diskStorage({
+    destination: function(req,file,cb){
+        return cb(null,'./uploads')
+    },
+    filename: function(req,file,cb){
+        return cb(null,`${Date.now()}-${file.originalname}`)
+    }
+})
+
+const upload = multer({storage})
+
+
 app.set('view engine','ejs')
 app.set('views',path.resolve('./views'))
-const upload = multer({
-    dest:'uploads/'
-})
+// const upload = multer({
+//     dest:'uploads/'
+// })
 
 app.use(express.urlencoded({extended:false}))
 
